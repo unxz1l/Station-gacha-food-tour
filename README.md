@@ -9,6 +9,7 @@ A fun web game where you can explore different food stations with a gacha-style 
 - Clean and simple interface
 - Works on all devices
 - Real-time game mechanics
+- Canvas-based background rendering for smoother animations
 
 ## Getting Started
 
