@@ -37,6 +37,16 @@ const mountainsContainer = document.getElementById('mountains');
 const cloudsContainer = document.getElementById('clouds');
 const grassContainer = document.getElementById('grass-container');
 
+const gameCanvas = document.getElementById("game-canvas");
+let ctx = gameCanvas.getContext("2d");
+let canvasMountains = [];
+let canvasClouds = [];
+let canvasGrass = [];
+function setupCanvas() {
+    gameCanvas.width = gameScreen.offsetWidth;
+    gameCanvas.height = gameScreen.offsetHeight;
+}
+
 // 創建開場場景
 function createStartScene() {
     startScene.innerHTML = `
@@ -467,6 +477,7 @@ function initStartScreen() {
 // 初始化遊戲
 function initGame() {
     // 設置小貓
+    setupCanvas();
     cat.innerHTML = createCatSVG('running');
     
     // 創建鐵軌枕木
@@ -515,49 +526,32 @@ function createSleepers() {
 
 // 創建背景元素
 function createBackgroundElements() {
-    // 清除現有元素
-    mountains.forEach(mountain => mountain.remove());
-    clouds.forEach(cloud => cloud.remove());
-    grassPatches.forEach(grass => grass.remove());
-    mountains = [];
-    clouds = [];
-    grassPatches = [];
-    
-    // 創建山脈
+    canvasMountains = [];
+    canvasClouds = [];
+    canvasGrass = [];
+
     for (let i = 0; i < 4; i++) {
-        const mountain = document.createElement('div');
-        mountain.style.position = 'absolute';
-        mountain.style.left = `${i * 250 - 50}px`;
-        mountain.style.bottom = '0';
-        mountain.style.zIndex = '1';
-        mountain.innerHTML = createMountainSVG();
-        mountainsContainer.appendChild(mountain);
-        mountains.push(mountain);
+        const height = 60 + Math.random() * 40;
+        const width = 200 + Math.random() * 100;
+        canvasMountains.push({ x: i * 250 - 50, width, height });
     }
-    
-    // 創建雲朵
+
     for (let i = 0; i < 5; i++) {
-        const cloud = document.createElement('div');
-        cloud.style.position = 'absolute';
-        cloud.style.left = `${i * 200 + Math.random() * 100}px`;
-        cloud.style.top = `${Math.random() * 60}px`;
-        cloud.style.opacity = `${0.6 + Math.random() * 0.4}`;
-        cloud.innerHTML = createCloudSVG();
-        cloudsContainer.appendChild(cloud);
-        clouds.push(cloud);
+        canvasClouds.push({
+            x: i * 200 + Math.random() * 100,
+            y: Math.random() * 60,
+            size: 40 + Math.random() * 30
+        });
     }
-    
-    // 創建草叢
+
     for (let i = 0; i < 8; i++) {
-        const grass = document.createElement('div');
-        grass.className = 'grass';
-        grass.style.left = `${i * 120 + Math.random() * 60}px`;
-        grass.style.zIndex = '2';
-        grass.innerHTML = createGrassSVG();
-        grassContainer.appendChild(grass);
-        grassPatches.push(grass);
+        canvasGrass.push({
+            x: i * 120 + Math.random() * 60,
+            height: 20 + Math.random() * 15
+        });
     }
 }
+
 
 // 遊戲循環
 function gameLoop() {
@@ -611,43 +605,56 @@ function moveSleepers() {
 
 // 移動背景元素
 function moveBackgroundElements() {
-    // 移動山脈 (慢速)
-    mountains.forEach(mountain => {
-        let left = parseFloat(mountain.style.left);
-        left -= gameSpeed * 0.2;
-        
-        if (left < -250) {
-            left = mountainsContainer.offsetWidth;
+    ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+    canvasMountains.forEach(m => {
+        m.x -= gameSpeed * 0.2;
+        if (m.x + m.width < 0) {
+            m.x = gameCanvas.width;
         }
-        
-        mountain.style.left = `${left}px`;
+        drawMountain(m);
     });
-    
-    // 移動雲朵 (更慢速)
-    clouds.forEach(cloud => {
-        let left = parseFloat(cloud.style.left);
-        left -= gameSpeed * 0.1;
-        
-        if (left < -100) {
-            left = cloudsContainer.offsetWidth;
-            cloud.style.top = `${Math.random() * 60}px`;
+    canvasClouds.forEach(c => {
+        c.x -= gameSpeed * 0.1;
+        if (c.x + c.size * 2 < 0) {
+            c.x = gameCanvas.width;
+            c.y = Math.random() * 60;
         }
-        
-        cloud.style.left = `${left}px`;
+        drawCloud(c);
     });
-    
-    // 移動草叢
-    grassPatches.forEach(grass => {
-        let left = parseFloat(grass.style.left);
-        left -= gameSpeed;
-        
-        if (left < -50) {
-            left = gameScreen.offsetWidth;
+    canvasGrass.forEach(g => {
+        g.x -= gameSpeed;
+        if (g.x < -20) {
+            g.x = gameCanvas.width;
         }
-        
-        grass.style.left = `${left}px`;
+        drawGrass(g);
     });
 }
+function drawMountain(m) {
+    ctx.fillStyle = "#6a8c69";
+    ctx.beginPath();
+    ctx.moveTo(m.x, gameCanvas.height - 60);
+    ctx.lineTo(m.x + m.width / 2, gameCanvas.height - 60 - m.height);
+    ctx.lineTo(m.x + m.width, gameCanvas.height - 60);
+    ctx.closePath();
+    ctx.fill();
+}
+
+function drawCloud(c) {
+    ctx.fillStyle = "rgba(255,255,255,0.8)";
+    ctx.beginPath();
+    ctx.arc(c.x, c.y + 40, c.size * 0.3, 0, Math.PI * 2);
+    ctx.arc(c.x + c.size * 0.4, c.y + 40, c.size * 0.3, 0, Math.PI * 2);
+    ctx.arc(c.x + c.size * 0.2, c.y + 30, c.size * 0.35, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function drawGrass(g) {
+    ctx.fillStyle = "#4a6c49";
+    ctx.fillRect(g.x, gameCanvas.height - 60 - g.height, 4, g.height);
+    ctx.fillRect(g.x + 6, gameCanvas.height - 60 - g.height * 0.8, 4, g.height * 0.8);
+}
+
+
 
 // 創建障礙物
 function createObstacle() {
