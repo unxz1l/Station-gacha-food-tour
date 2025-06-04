@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>西裝小貓鐵道冒險</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- 開場畫面 -->
+        <div class="start-screen" id="start-screen">
+            <h1 class="title">電車吃漢</h1>
+            <p class="subtitle">隨機抽台鐵車站</p>
+            <div id="start-scene"></div>
+            <button class="start-btn" id="start-btn">開始遊戲</button>
+            <p class="instructions">按空白鍵跳躍，按向下鍵蹲下</p>
+        </div>
+        
+        <!-- 遊戲畫面 -->
+        <div class="game-screen" id="game-screen">
+            <div class="score">分數: <span id="score-value">0</span></div>
+            <div class="background"></div>
+            <div class="clouds" id="clouds"></div>
+            <div class="mountains" id="mountains"></div>
+            <div class="track-area">
+                <div class="ground"></div>
+                <div class="track" id="track">
+                    <div class="rail"></div>
+                </div>
+            </div>
+            <div id="grass-container"></div>
+            <div class="cat" id="cat"></div>
+            <div class="game-controls">空格鍵跳躍 | 下箭頭蹲下</div>
+        </div>
+        
+        <!-- 遊戲結束畫面 -->
+        <div class="game-over" id="game-over">
+            <h2>旅程暫停</h2>
+            <div class="station-name" id="station-name"></div>
+            <button class="restart-btn" id="restart-btn">再次出發</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html> 

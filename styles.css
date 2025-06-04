@@ -1,0 +1,286 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    color: #333;
+}
+
+.game-container {
+    position: relative;
+    width: 800px;
+    height: 450px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* 開場畫面 */
+.start-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 30;
+    background: linear-gradient(to bottom, #a7c5eb, #d6b88e, #e8a87c);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: 500;
+    color: #333;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7);
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    padding-top: 20px;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #555;
+    margin-top: 10px;
+    font-weight: 300;
+    text-align: center;
+    width: 100%;
+}
+
+#start-scene {
+    width: 100%;
+    height: 60%;
+    position: relative;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+#start-scene svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.start-btn {
+    padding: 12px 30px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #555;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    transition: all 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0;
+}
+
+.instructions {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    margin-top: 15px;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 8px 15px;
+    border-radius: 20px;
+}
+
+/* 遊戲畫面 */
+.game-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.score {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 18px;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px 15px;
+    border-radius: 20px;
+    color: #555;
+}
+
+.background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #a7c5eb 0%, #d6b88e 70%, #e8a87c 100%);
+}
+
+.mountains {
+    position: absolute;
+    bottom: 120px;
+    width: 100%;
+    height: 150px;
+    z-index: 1;
+}
+
+.clouds {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    height: 100px;
+    z-index: 2;
+}
+
+.track-area {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+    z-index: 3;
+}
+
+.ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #7d6b53;
+}
+
+.track {
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    height: 10px;
+    background-color: #555;
+    z-index: 4;
+}
+
+.sleeper {
+    position: absolute;
+    width: 25px;
+    height: 6px;
+    background-color: #8B4513;
+    bottom: -3px;
+    z-index: 3;
+}
+
+.rail {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #999;
+    top: 2px;
+    z-index: 5;
+}
+
+.cat {
+    position: absolute;
+    bottom: 70px;
+    left: 100px;
+    width: 60px;
+    height: 60px;
+    z-index: 10;
+}
+
+.obstacle {
+    position: absolute;
+    bottom: 70px;
+    z-index: 9;
+}
+
+.train {
+    width: 80px;
+    height: 50px;
+}
+
+.sign {
+    width: 40px;
+    height: 80px;
+    bottom: 70px;
+}
+
+.grass {
+    position: absolute;
+    bottom: 60px;
+    z-index: 2;
+}
+
+/* 遊戲結束畫面 */
+.game-over {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    display: none;
+}
+
+.game-over h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: 500;
+}
+
+.station-name {
+    font-size: 24px;
+    color: #FFD700;
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 15px 25px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+.restart-btn {
+    padding: 12px 30px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #555;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    transition: all 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.restart-btn:hover {
+    background-color: rgba(255, 255, 255, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.game-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 14px;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px 15px;
+    border-radius: 20px;
+    color: #555;
+} 
